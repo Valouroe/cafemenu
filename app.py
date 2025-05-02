@@ -40,9 +40,9 @@ def index():
 def menu():
     return render_template('menu.html')
 
-SPOONACULAR_API_KEY = '78ba9b1f184744609c9c71898fc3fe59'  # Replace with your actual API key
-SPOONACULAR_API_URL = 'https://api.spoonacular.com/recipes/complexSearch'
 
+# SPOONACULAR_API_URL = 'https://api.spoonacular.com/recipes/complexSearch'
+SPOONACULAR_API_URL='https://cafemenu-worker.valour-okeyewurum.workers.dev'
 
 @app.route('/api/menu/<meal>')
 def get_menu(meal):
@@ -61,26 +61,29 @@ def get_menu(meal):
             if current_time - cached_time < CACHE_DURATION:
                 return jsonify(data)
 
-        params = {
-            'query': spoonacular_query,
-            'number': 5,
-            'apiKey': SPOONACULAR_API_KEY
-        }
+        # params = {
+        #     'query': spoonacular_query,
+        #     'number': 5,
+        #     'apiKey': SPOONACULAR_API_KEY
+        # }
 
-        response = requests.get(SPOONACULAR_API_URL, params=params)
+        # response = requests.get(SPOONACULAR_API_URL, params=params)
+        # response.raise_for_status()
+        # data = response.json()
+        # results = data.get('results', [])
+
+        # menu_items = []
+        # for item in results:
+        #     name = item.get('title', 'Food')
+        #     image_url = item.get('image', FALLBACK_IMAGE)
+        #     menu_items.append({
+        #         'name': name,
+        #         'image_url': image_url
+        #     })
+
+        response=requests.get(f"https://cafemenu-worker.valour-okeyewurum.workers.dev/api/menu/{meal}")
         response.raise_for_status()
-        data = response.json()
-        results = data.get('results', [])
-
-        menu_items = []
-        for item in results:
-            name = item.get('title', 'Food')
-            image_url = item.get('image', FALLBACK_IMAGE)
-            menu_items.append({
-                'name': name,
-                'image_url': image_url
-            })
-
+        menu_items = response.json()
         # Cache result
         menu_cache[meal] = (current_time, menu_items)
         return jsonify(menu_items)
