@@ -32,7 +32,9 @@ export default {
         image_url: item.image || "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
       }))
       return new Response(JSON.stringify(formatted), {
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json",
+		"Access-Control-Allow-Origin": "*",
+		},
       })
     } catch (err) {
       return new Response(JSON.stringify({ error: "API call failed" }), { status: 500 })
