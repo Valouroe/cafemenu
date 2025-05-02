@@ -9,7 +9,7 @@
  */
 
 export default {
-	async fetch(request) {
+	async fetch(request,env) {
 	const apiKey = env.SPOONACULAR_API_KEY;
 	const url = new URL(request.url)
     const meal = url.pathname.split("/").pop()
@@ -19,7 +19,7 @@ export default {
       dinner: "American dinner"
     }
     const query = mealQueries[meal] || "food recipes"
-    const spoonacularKey = SPOONACULAR_API_KEY // Add to secrets below
+    const spoonacularKey = apiKey // Add to secrets below
 
     const apiUrl = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&number=5&apiKey=${spoonacularKey}`
 
