@@ -1,1 +1,1 @@
-# cafemenu
+This is the worker that is connected to our "website" pages and handles the API calls, creating/rettrieving reviews. I also can't delet the folders frontend and templates because of the issues my system has.
